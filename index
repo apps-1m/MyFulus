@@ -487,7 +487,7 @@
         // ==========================================
         // ⚠️ KONFIGURASI WEB APP URL (TETAP SAMA)
         // ==========================================
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbycIfzub04y8tQoOzwt6D-6nb5Dh01X9_Xn9reQHfQJU3EPzp0yK-ZuE0k5ayLXmDd9/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw5Sl7ezAAh9PFdmolGms1GvhRyr8wsnIdQvI61fAtpCBSmBESfHwWhdYArLJ28PO8I/exec";
         const ADMIN_PASS = "hasyimoto"; 
         
         // State Management Global
@@ -592,7 +592,15 @@
                     body: JSON.stringify(payload),
                     redirect: 'follow'
                 });
-                return await response.json();
+                
+                const textRes = await response.text(); // Ambil sebagai teks dulu untuk cek error dari Google
+                try {
+                    return JSON.parse(textRes);
+                } catch (e) {
+                    console.error("Response bukan JSON valid:", textRes);
+                    showToast("Akses Ditolak Google. Cek setingan 'Anyone' di GAS.");
+                    return null;
+                }
             } catch (error) {
                 console.error(error);
                 showToast("Koneksi Gagal. Cek Jaringan.");
@@ -729,7 +737,9 @@
                 showToast("Transaksi Berhasil Disimpan!");
                 loadData(); 
             } else {
-                showToast("Gagal menyimpan transaksi.");
+                // Tampilkan pesan error spesifik jika ada
+                const errorMsg = result && result.message ? result.message : "Data ditolak. Cek setingan Deploy.";
+                showToast("Gagal: " + errorMsg);
             }
         }
 
