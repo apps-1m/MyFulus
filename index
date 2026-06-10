@@ -581,7 +581,7 @@
 
         // Komunikasi GAS
         const fetchGAS = async (payload) => {
-            if(GAS_WEB_APP_URL === "ISI_DENGAN_URL_WEB_APP_GAS_ANDA_DISINI") {
+            if(GAS_WEB_APP_URL === "https://script.google.com/macros/s/AKfycbyAIPrsxM1E7qw3DIL7NWMr5fS7UqkM7A2cUkzjUf8yl769iq1EpdgSQq4BOb43fZYY/exec") {
                 showToast("ERROR: URL GAS Belum Diatur!");
                 return null;
             }
